@@ -1,0 +1,14 @@
+PODS:
+  - LBNBetterTextField (0.1.0)
+
+DEPENDENCIES:
+  - LBNBetterTextField (from `../`)
+
+EXTERNAL SOURCES:
+  LBNBetterTextField:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  LBNBetterTextField: 5b6985d6b906a453e8ce9b59d14c3269fb3bb8aa
+
+COCOAPODS: 0.39.0

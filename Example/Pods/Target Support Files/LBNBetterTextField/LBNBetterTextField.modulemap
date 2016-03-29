@@ -1,0 +1,6 @@
+framework module LBNBetterTextField {
+  umbrella header "LBNBetterTextField-umbrella.h"
+
+  export *
+  module * { export * }
+}
