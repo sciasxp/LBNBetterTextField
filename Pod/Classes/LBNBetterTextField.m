@@ -131,12 +131,12 @@
     
     if (self.validation) {
         
-        return self.validation(textField.text);
+        defaultReturnValue = self.validation(textField.text);
     }
     
     if (self.shouldReturnBlock)
     {
-        defaultReturnValue = self.shouldReturnBlock(textField);
+        defaultReturnValue = self.shouldReturnBlock(textField) & defaultReturnValue;
     }
     
     return defaultReturnValue;
@@ -182,13 +182,22 @@
 
 @implementation LBNBetterTextField
 
-/*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     // Drawing code
+    /*
+     [self.placeHolderTextColor setFill];
+     [self.placeholder drawInRect:rect withFont:self.font lineBreakMode:UILineBreakModeTailTruncation alignment:self.textAlignment];
+     */
+    
+    if (self.placeHolderTextColor) {
+        
+        self.attributedPlaceholder = [[NSAttributedString alloc]
+                                      initWithString:self.placeholder
+                                      attributes:@{NSForegroundColorAttributeName:self.placeHolderTextColor}];
+    }
 }
-*/
 
 #pragma mark - Init Methods
 

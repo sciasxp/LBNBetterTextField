@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "LBNBetterTextField"
-  s.version          = "0.0.1"
+  s.version          = "0.0.2"
   s.summary          = "A UITextField replacement that adds block for delegate methods, field validation and formatting."
 
 # This description is used to generate tags and improve search results.
@@ -28,7 +28,7 @@ This project is based on UITextField+DelegationBlocks and UITextField-Shake proj
   s.source           = { :git => "https://github.com/sciasxp/LBNBetterTextField.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.platform     = :ios, '7.1'
+  s.platform     = :ios, '8.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'

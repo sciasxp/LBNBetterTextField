@@ -25,6 +25,8 @@ typedef BOOL(^TextFieldShouldReturn)(UITextField *textField);
 typedef void(^TextFieldDidBeginEditing)(UITextField *textField);
 typedef void(^TextFieldDidEndEditing)(UITextField *textField);
 
+IB_DESIGNABLE
+
 @interface LBNBetterTextField : UITextField
 
 @property (readwrite, nonatomic) NSInteger minLength;
@@ -32,6 +34,7 @@ typedef void(^TextFieldDidEndEditing)(UITextField *textField);
 @property (readwrite, nonatomic) BOOL shakeOnNotValid;
 @property (strong, nonatomic) ValidationBlock validation;
 @property (strong, nonatomic) FormatBlock format;
+@property (strong, nonatomic) IBInspectable UIColor *placeHolderTextColor;
 
 - (void)addTextFieldShouldChangeCharactersInRangeWithBlock:(TextFieldShouldReturnShouldChangeCharactersInRange)block;
 - (void)addTextFieldShouldReturnWithBlock:(TextFieldShouldReturn)block;
