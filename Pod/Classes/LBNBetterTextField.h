@@ -19,6 +19,8 @@ typedef NS_ENUM(NSInteger, ShakeDirection) {
 };
 
 typedef BOOL (^ValidationBlock)(NSString *text);
+typedef void (^ExecuteBlock)(UITextField *textField);
+
 typedef NSString *(^FormatBlock)(UITextField *textField, NSString *string);
 typedef BOOL(^TextFieldShouldReturnShouldChangeCharactersInRange)(UITextField *textField, NSRange range, NSString *replacementString);
 typedef BOOL(^TextFieldShouldReturn)(UITextField *textField);
@@ -42,5 +44,6 @@ IB_DESIGNABLE
 - (void)addTextFieldDidBeginEditingWithBlock:(TextFieldDidBeginEditing)block;
 - (void)addTextFieldDidEndEditingWithBlock:(TextFieldDidEndEditing)block;
 
+- (void)addExecuteBlockOnFinish:(ExecuteBlock)block;
 
 @end

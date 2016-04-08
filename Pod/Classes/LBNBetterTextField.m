@@ -7,6 +7,8 @@
 
 #import "LBNBetterTextField.h"
 
+#import "LBNBetterTextField.h"
+
 #pragma mark - UITextFieldProxyDelegate
 
 @interface UITextFieldProxyDelegate : NSObject <UITextFieldDelegate>
@@ -22,6 +24,7 @@
 @property (readwrite, nonatomic) BOOL shakeOnNotValid;
 @property (strong, nonatomic) ValidationBlock validation;
 @property (strong, nonatomic) FormatBlock format;
+@property (strong, nonatomic) ExecuteBlock execute;
 
 @property (weak, nonatomic) UITextField *textField;
 
@@ -137,6 +140,14 @@
     if (self.shouldReturnBlock)
     {
         defaultReturnValue = self.shouldReturnBlock(textField) & defaultReturnValue;
+    }
+    
+    if (defaultReturnValue) {
+        
+        if (self.execute) {
+            
+            self.execute(textField);
+        }
     }
     
     return defaultReturnValue;
@@ -325,6 +336,12 @@
 {
     [self checkAndSetDelegate];
     self.proxyDelegate.didEndEditingBlock = block;
+}
+
+- (void)addExecuteBlockOnFinish:(ExecuteBlock)block {
+    
+    [self checkAndSetDelegate];
+    self.proxyDelegate.execute = block;
 }
 
 @end
