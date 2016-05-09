@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class LBNBetterTextField;
+
 typedef NS_ENUM(NSInteger, LengthType) {
     
     ValueNotSetType = -1
@@ -19,13 +21,13 @@ typedef NS_ENUM(NSInteger, ShakeDirection) {
 };
 
 typedef BOOL (^ValidationBlock)(NSString *text);
-typedef void (^ExecuteBlock)(UITextField *textField);
+typedef void (^ExecuteBlock)(LBNBetterTextField *textField);
 
-typedef NSString *(^FormatBlock)(UITextField *textField, NSString *string);
-typedef BOOL(^TextFieldShouldReturnShouldChangeCharactersInRange)(UITextField *textField, NSRange range, NSString *replacementString);
-typedef BOOL(^TextFieldShouldReturn)(UITextField *textField);
-typedef void(^TextFieldDidBeginEditing)(UITextField *textField);
-typedef void(^TextFieldDidEndEditing)(UITextField *textField);
+typedef NSString *(^FormatBlock)(LBNBetterTextField *textField, NSString *string);
+typedef BOOL(^TextFieldShouldReturnShouldChangeCharactersInRange)(LBNBetterTextField *textField, NSRange range, NSString *replacementString);
+typedef BOOL(^TextFieldShouldReturn)(LBNBetterTextField *textField);
+typedef void(^TextFieldDidBeginEditing)(LBNBetterTextField *textField);
+typedef void(^TextFieldDidEndEditing)(LBNBetterTextField *textField);
 
 IB_DESIGNABLE
 

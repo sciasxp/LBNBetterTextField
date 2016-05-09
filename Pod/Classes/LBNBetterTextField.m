@@ -7,8 +7,6 @@
 
 #import "LBNBetterTextField.h"
 
-#import "LBNBetterTextField.h"
-
 #pragma mark - UITextFieldProxyDelegate
 
 @interface UITextFieldProxyDelegate : NSObject <UITextFieldDelegate>
@@ -28,6 +26,8 @@
 
 @property (weak, nonatomic) UITextField *textField;
 
+@property (readwrite, nonatomic) BOOL textFieldReturned;
+
 @end
 
 @implementation UITextFieldProxyDelegate
@@ -35,7 +35,7 @@
 - (instancetype)init {
     if (self = [super init])
     {
-        
+        self.textFieldReturned = NO;
     }
     
     return self;
@@ -123,10 +123,16 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     BOOL defaultReturnValue = YES;
+    self.textFieldReturned = YES;
     
     if (self.minLength > ValueNotSetType) {
         
         if (textField.text.length < self.minLength) {
+            
+            if (self.shakeOnNotValid) {
+                
+                [self shake:10 direction:ShakeDirectionVertical currentTimes:0 withDelta:5 speed:0.05 shakeDirection:ShakeDirectionVertical completion:nil];
+            }
             
             return NO;
         }
@@ -134,12 +140,30 @@
     
     if (self.validation) {
         
-        defaultReturnValue = self.validation(textField.text);
+        if (self.validation(textField.text) == NO) {
+            
+            if (self.shakeOnNotValid) {
+                
+                [self shake:10 direction:ShakeDirectionVertical currentTimes:0 withDelta:5 speed:0.05 shakeDirection:ShakeDirectionVertical completion:nil];
+            }
+            
+            defaultReturnValue = NO;
+        }
     }
     
     if (self.shouldReturnBlock)
     {
-        defaultReturnValue = self.shouldReturnBlock(textField) & defaultReturnValue;
+        if (defaultReturnValue) {
+            
+            defaultReturnValue = self.shouldReturnBlock(textField);
+            
+        } else {
+            
+            if (self.shakeOnNotValid) {
+                
+                [self shake:10 direction:ShakeDirectionVertical currentTimes:0 withDelta:5 speed:0.05 shakeDirection:ShakeDirectionVertical completion:nil];
+            }
+        }
     }
     
     if (defaultReturnValue) {
@@ -175,9 +199,64 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    if (self.textFieldReturned) {
+        
+        self.textFieldReturned = NO;
+        return;
+    }
+    
     if (self.didEndEditingBlock)
     {
-        self.didEndEditingBlock(textField);
+        BOOL defaultReturnValue = YES;
+        
+        if (self.minLength > ValueNotSetType) {
+            
+            if (textField.text.length < self.minLength) {
+                
+                if (self.shakeOnNotValid) {
+                    
+                    [self shake:10 direction:ShakeDirectionVertical currentTimes:0 withDelta:5 speed:0.05 shakeDirection:ShakeDirectionVertical completion:nil];
+                }
+                
+                defaultReturnValue = NO;
+            }
+        }
+        
+        if (self.validation) {
+            
+            if (defaultReturnValue) {
+                
+                if (self.validation(textField.text) == NO) {
+                    
+                    if (self.shakeOnNotValid) {
+                        
+                        [self shake:10 direction:ShakeDirectionVertical currentTimes:0 withDelta:5 speed:0.05 shakeDirection:ShakeDirectionVertical completion:nil];
+                    }
+                    
+                    defaultReturnValue = NO;
+                }
+            }
+        }
+        
+        if (defaultReturnValue) {
+            
+            self.didEndEditingBlock(textField);
+            
+        } else {
+            
+            if (self.shakeOnNotValid) {
+                
+                [self shake:10 direction:ShakeDirectionVertical currentTimes:0 withDelta:5 speed:0.05 shakeDirection:ShakeDirectionVertical completion:nil];
+            }
+        }
+        
+        if (defaultReturnValue) {
+            
+            if (self.execute) {
+                
+                self.execute(textField);
+            }
+        }
     }
 }
 
